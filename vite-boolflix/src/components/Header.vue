@@ -17,7 +17,7 @@ export default {
         },
         lancio() {
             store.queryOfPerson = this.wordKey
-            store.firstLaunch()
+            store.launchSearch()
         },
         controlTotalPages(){
             console.log(store.totalPage);

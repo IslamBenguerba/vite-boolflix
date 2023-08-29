@@ -48,6 +48,9 @@ export default {
         },
         prossimatPage() {
             store.NextLaunch()
+        },
+        prevPage(){
+            store.PrevLaunch()
         }
 
     }
@@ -55,18 +58,20 @@ export default {
 </script>
 <template>
     <div class="container">
-        <button class="btn btn-success" v-if="store.totalPage > 1 && store.currentPage < store.totalPage" @click.prevent="prossimatPage()"> avanti</button>
+        <button class="btn btn-success" v-if="store.totalPage > 1 && store.currentPage < store.totalPage" @click="prossimatPage()"> avanti</button>
+        <button class="btn btn-success" v-if="store.currentPage > 1 && store.currentPage <= store.totalPage" @click="prevPage()"> Indietro</button>
         <ul class="lista-cards">
-            <li v-for="film in store.lista.results">
+            <li v-for="film in store.lista">
                 <div class="card cards" style="width: 18rem; height: 100%;position: relative;">
                     <div class="my-card">
                         <img class="card-img" :src="getImgUrl(film['poster_path'])" :alt="getAlt(film)">
                         <div class="card-body " style="width: 100%;height: 100%; padding: 0;">
                             <div class="body-film">
-                                <h5 class="card-title">Titolo Originale{{ film['original_title'] }}</h5>
+                                <h5 class="card-title">Titolo Originale{{film['original_title']? film['original_title']:film['"original_name"'] }}</h5>
                                 <p class="card-text">
-                                <h3>Titolo{{ film['title'] }}</h3>
+                                <h3>Titolo{{ film['title']? film['title']:film['name'] }}</h3>
                                 <span>Lingua Originale: {{ film['original_language'] }}</span><br>
+                                <span>{{film['release_date']}}</span>
                                 <span>voto {{ converVote }}
                                     <i class="fa-solid fa-star" style="color: #e7c93c;;" v-for="stella in voto"></i>
                                     <LangFlag :iso=creaatedFlag></LangFlag>
