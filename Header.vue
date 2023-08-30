@@ -1,6 +1,6 @@
 <script>
 import { store } from '../store';
-import {firstLaunch} from '../store';
+import {firstLaunch,LaunchSeries,launchSearch} from '../store';
 import axios from 'axios';
 export default {
     data() {
@@ -21,13 +21,15 @@ export default {
         },
         lancio() {
             store.queryOfPerson = this.wordKey
-            store.launchSearch()
+            // store.launchSearch()
+            launchSearch()
         },
         controlTotalPages(){
             console.log(store.totalPage);
         },
         lancioSeries(){
-            store.LaunchSeries()
+            LaunchSeries()
+            // store.LaunchSeries()
         }
 
 

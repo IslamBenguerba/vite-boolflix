@@ -1,6 +1,7 @@
 <script>
 import { store } from '../store';
 import LangFlag from 'vue-lang-code-flags';
+import { NextLaunch, PrevLaunch } from '../store';
 
 export default {
     components: {
@@ -9,31 +10,22 @@ export default {
     data() {
         return {
             store,
-            listaFilm: [],
             voto: '',
-            currrentFilm: '10',
             page: ''
         }
     },
-    computed: {
-        converVote() {
-            this.voto = Math.ceil((this.currrentFilm['vote_average'] / 2))
+    methods: {
+        creaatedFlag(film) {
+            let flag = film['original_language']
+            return flag
+        },
+        converVote(film) {
+            this.voto = Math.ceil((film['vote_average'] / 2))
             return this.voto
-            return console.log(this.currrentFilm)
+            // return console.log(this.currrentFilm)
             // Math.ceil((this.film['vote_average'] / 2))
 
         },
-        creaatedFlag() {
-
-            let flag = this.currrentFilm['original_language']
-            return flag
-        },
-        // viewIndex() {
-        //     store.totalPage
-        //     console.log(store.totalPage)
-        // }
-    },
-    methods: {
         getImgUrl(path = null) {
             if (path === null) {
                 console.log('è nullo')
@@ -47,10 +39,12 @@ export default {
             return film['title']
         },
         prossimatPage() {
-            store.NextLaunch()
+            NextLaunch()
+            // store.NextLaunch()
         },
         prevPage() {
-            store.PrevLaunch()
+            PrevLaunch()
+            // store.PrevLaunch()
         }
 
     }
@@ -67,7 +61,7 @@ export default {
 
 
         <ul class="lista-cards">
-            <li v-for="film in store.lista">
+            <li v-for="film in store.lista" :key="film.id">
                 <div class="card cards" style="width: 18rem; height: 100%;position: relative;">
                     <div class="my-card">
                         <img class="card-img" :src="getImgUrl(film['poster_path'])" :alt="getAlt(film)">
@@ -79,9 +73,9 @@ export default {
                                 <h3>Titolo{{ film['title'] ? film['title'] : film['name'] }}</h3>
                                 <span>Lingua Originale: {{ film['original_language'] }}</span><br>
                                 <span>{{ film['release_date'] }}</span>
-                                <span>voto {{ converVote }}
+                                <span>voto {{ converVote(film) }}
                                     <i class="fa-solid fa-star" style="color: #e7c93c;;" v-for="stella in voto"></i>
-                                    <LangFlag :iso=creaatedFlag></LangFlag>
+                                    <LangFlag :iso=creaatedFlag(film)></LangFlag>
                                 </span>.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
